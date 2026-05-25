@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude × Frontend — Curated Resources for React & Next.js</title>
+<meta name="description" content="A hand-filtered directory of the best repos, builders, skills and case studies for building React & Next.js frontends with Claude.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0b07;
+    --bg-soft:#15110a;
+    --panel:#1a150d;
+    --ink:#f4ece0;
+    --ink-dim:#b3a995;
+    --ink-faint:#7c715d;
+    --amber:#e8a23d;
+    --amber-bright:#ffc169;
+    --rust:#c45a2e;
+    --line:#2e2719;
+    --green:#9bb167;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'JetBrains Mono',monospace;
+    line-height:1.6;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,162,61,0.10), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 110%, rgba(196,90,46,0.08), transparent);
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+    background:rgba(13,11,7,0.78);border-bottom:1px solid var(--line);
+  }
+  .nav-inner{max-width:1080px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink);display:flex;align-items:center;gap:9px}
+  .brand .sq{width:9px;height:9px;background:var(--amber);box-shadow:0 0 10px var(--amber)}
+  .nav-links{display:flex;gap:22px}
+  .nav-links a{font-size:12px;letter-spacing:0.06em;color:var(--ink-faint);text-decoration:none;text-transform:uppercase;transition:color .2s}
+  .nav-links a:hover{color:var(--amber)}
+
+  /* HEADER */
+  header{padding:80px 0 52px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-size:12px;letter-spacing:0.32em;text-transform:uppercase;
+    color:var(--amber);display:flex;align-items:center;gap:12px;margin-bottom:26px;
+  }
+  .kicker .dot{width:7px;height:7px;background:var(--amber);border-radius:50%;box-shadow:0 0 12px var(--amber)}
+  h1{
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(42px,8vw,86px);line-height:0.96;letter-spacing:-0.02em;
+    color:var(--ink);margin-bottom:24px;
+  }
+  h1 em{font-style:italic;color:var(--amber-bright)}
+  .lede{
+    max-width:640px;font-size:15px;color:var(--ink-dim);line-height:1.75;
+  }
+  .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px}
+  .tag{
+    font-size:11px;letter-spacing:0.08em;padding:6px 13px;border:1px solid var(--line);
+    border-radius:2px;color:var(--ink-faint);text-transform:uppercase;
+  }
+  .tag.hot{color:var(--amber);border-color:rgba(232,162,61,0.4)}
+
+  /* SECTION SHELL */
+  section{padding:62px 0;border-bottom:1px solid var(--line);scroll-margin-top:70px}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:40px;flex-wrap:wrap}
+  .sec-num{font-family:'Fraunces',serif;font-size:20px;color:var(--rust);font-weight:600}
+  .sec-title{
+    font-family:'Fraunces',serif;font-size:clamp(26px,4vw,38px);font-weight:600;
+    letter-spacing:-0.01em;color:var(--ink);
+  }
+  .sec-sub{font-size:13px;color:var(--ink-faint);margin-left:auto;max-width:300px;text-align:right}
+
+  /* CARDS */
+  .grid{display:grid;gap:18px}
+  .card{
+    background:linear-gradient(160deg,var(--panel),var(--bg-soft));
+    border:1px solid var(--line);border-radius:6px;padding:26px 28px;
+    position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s;
+  }
+  .card::after{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(var(--amber),var(--rust));transform:scaleY(0);
+    transform-origin:top;transition:transform .4s ease;
+  }
+  .card:hover{transform:translateX(6px);border-color:rgba(232,162,61,0.35)}
+  .card:hover::after{transform:scaleY(1)}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}
+  .card-name{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--ink);line-height:1.2}
+  .badge{
+    flex-shrink:0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+    padding:4px 9px;border-radius:2px;font-weight:700;
+  }
+  .badge.pick{background:var(--amber);color:#1a1206}
+  .badge.repo{background:rgba(155,177,103,0.15);color:var(--green);border:1px solid rgba(155,177,103,0.3)}
+  .badge.read{background:rgba(196,90,46,0.15);color:var(--rust);border:1px solid rgba(196,90,46,0.35)}
+  .card-desc{font-size:13.5px;color:var(--ink-dim);line-height:1.7;margin-bottom:18px}
+  .card-desc strong{color:var(--ink);font-weight:500}
+  .links{display:flex;flex-wrap:wrap;gap:10px}
+  a.link{
+    display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:0.04em;
+    color:var(--amber);text-decoration:none;border:1px solid rgba(232,162,61,0.3);
+    padding:7px 13px;border-radius:3px;transition:all .25s;
+  }
+  a.link:hover{background:var(--amber);color:#1a1206;border-color:var(--amber)}
+  a.link .arr{font-size:13px;transition:transform .25s}
+  a.link:hover .arr{transform:translate(2px,-2px)}
+
+  /* PEOPLE */
+  .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .person{background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;padding:18px 20px;transition:all .3s}
+  .person:hover{border-color:rgba(232,162,61,0.4);background:var(--panel)}
+  .person .handle{font-family:'Fraunces',serif;font-size:18px;color:var(--ink);margin-bottom:3px}
+  .person .role{font-size:11.5px;color:var(--ink-faint);margin-bottom:13px;line-height:1.5;min-height:34px}
+  .person a{font-size:11.5px;color:var(--amber);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .person a:hover{color:var(--amber-bright);text-decoration:underline}
+
+  /* VERDICT */
+  .verdict{
+    background:linear-gradient(150deg,rgba(232,162,61,0.08),rgba(196,90,46,0.05));
+    border:1px solid rgba(232,162,61,0.25);border-radius:8px;padding:36px 38px;
+  }
+  .verdict .label{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+  .verdict p{font-size:15px;color:var(--ink-dim);line-height:1.8;margin-bottom:14px}
+  .verdict p:last-child{margin-bottom:0}
+  .verdict strong{color:var(--amber-bright);font-weight:600}
+
+  /* FOOTER */
+  footer{padding:48px 0 70px;text-align:center}
+  footer .sig{font-family:'Fraunces',serif;font-style:italic;font-size:16px;color:var(--ink-faint)}
+  footer .small{font-size:11px;color:var(--ink-faint);margin-top:10px;letter-spacing:0.05em}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:640px){
+    .sec-sub{display:none}
+    .nav-links{display:none}
+    .card{padding:22px}
+    .verdict{padding:26px 22px}
+    header{padding:52px 0 40px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="brand"><span class="sq"></span> Claude × Frontend</div>
+    <div class="nav-links">
+      <a href="#repos">Repos</a>
+      <a href="#cases">Case Studies</a>
+      <a href="#people">People</a>
+      <a href="#community">Community</a>
+      <a href="#start">Start Here</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="reveal">
+    <div class="kicker"><span class="dot"></span> Curated Directory · React / Next.js</div>
+    <h1>Building frontends<br>with <em>Claude</em>,<br>done right.</h1>
+    <p class="lede">A hand-filtered directory of the repos, builders, skills and case studies genuinely pushing React &amp; Next.js development with Claude. Beginner "todo-app-in-2-hours" noise stripped out — only resources that teach production-grade patterns.</p>
+    <div class="meta">
+      <span class="tag hot">Open Resource</span>
+      <span class="tag">Next.js 16</span>
+      <span class="tag">App Router · RSC</span>
+      <span class="tag">shadcn/ui</span>
+      <span class="tag">AI SDK</span>
+      <span class="tag">Accessibility</span>
+    </div>
+  </header>
+
+  <!-- 01 REPOS -->
+  <section id="repos" class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <span class="sec-title">Repos worth cloning</span>
+      <span class="sec-sub">Closest to a modern React/Next stack, ranked by signal.</span>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">laguagu / claude-code-nextjs-skills</div>
+          <span class="badge pick">Top Pick</span>
+        </div>
+        <p class="card-desc">The most <strong>Next.js-pure</strong> collection here. Claude Code skills for Next.js 16, AI SDK 6, pgvector &amp; bun — covering RSC, async APIs, Cache Components &amp; PPR, SEO (metadata, sitemaps, JSON-LD), performance optimization, and Supabase best practices. Read every SKILL.md to learn modern Next.js + Claude patterns at once.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/laguagu/claude-code-nextjs-skills" target="_blank" rel="noopener">Repo <span class="arr">↗</span></a>
+          <a class="link" href="https://github.com/laguagu" target="_blank" rel="noopener">@laguagu <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">chrisdevelops / claude-code-nextjs-project</div>
+          <span class="badge repo">Template</span>
+        </div>
+        <p class="card-desc">Next.js + ShadCN + Tailwind v4 template with custom Claude Code + SuperDesign instructions. Splits the workflow into <strong>Super Design</strong> (UI/UX mockups, 35+ style taxonomy) and <strong>Implement</strong> (mockup → production Next.js code). A clean mockup-to-ship pipeline you can clone directly.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/chrisdevelops/claude-code-nextjs-project" target="_blank" rel="noopener">Repo <span class="arr">↗</span></a>
+          <a class="link" href="https://github.com/chrisdevelops" target="_blank" rel="noopener">@chrisdevelops <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">martinacostadev / claude-react-agents</div>
+          <span class="badge repo">Agents</span>
+        </div>
+        <p class="card-desc">Built specifically for <strong>React / Next.js and React Native Expo</strong> — auto-detect, SOLID architecture, clean domain/application/infrastructure folder layers. A solid reference for structuring agent-assisted React projects properly.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/martinacostadev/claude-react-agents" target="_blank" rel="noopener">Repo <span class="arr">↗</span></a>
+          <a class="link" href="https://github.com/martinacostadev" target="_blank" rel="noopener">@martinacostadev <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">sx4im / awesome-claude-md</div>
+          <span class="badge repo">CLAUDE.md</span>
+        </div>
+        <p class="card-desc">Battle-tested CLAUDE.md files for Next.js, React, Python, Flutter &amp; more. The whole premise: a file that says "write clean code" teaches Claude <strong>nothing</strong> — copy the Next.js template and output quality jumps instantly.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/sx4im/awesome-claude-md" target="_blank" rel="noopener">Repo <span class="arr">↗</span></a>
+          <a class="link" href="https://github.com/sx4im" target="_blank" rel="noopener">@sx4im <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Anthropic / frontend-design skill</div>
+          <span class="badge pick">UI King</span>
+        </div>
+        <p class="card-desc">The skill that started the "anti AI-slop" movement. Forces Claude to make unexpected, characterful UI choices instead of the default purple-gradient + Inter look. 270k+ installs, works across HTML/CSS/JS, React &amp; Vue. Still the king for raw UI quality.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">gbechtold / Claude-to-React-Next</div>
+          <span class="badge repo">Ship Tool</span>
+        </div>
+        <p class="card-desc">Converts Claude artifacts (the in-chat React components) into a real production <strong>Next.js</strong> project with one prompt. Useful when you prototype in Claude.ai and want to actually ship.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/gbechtold/Claude-to-React-Next" target="_blank" rel="noopener">Repo <span class="arr">↗</span></a>
+          <a class="link" href="https://github.com/gbechtold" target="_blank" rel="noopener">@gbechtold <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 02 CASE STUDIES -->
+  <section id="cases" class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <span class="sec-title">Real production case studies</span>
+      <span class="sec-sub">Shipped work + repeatable workflows, not hype.</span>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Front Kit — 14 WCAG-AA Next.js apps with Claude Code</div>
+          <span class="badge pick">Best Read</span>
+        </div>
+        <p class="card-desc">14 production Next.js apps in six months, every one passing <strong>WCAG 2.1 Level AA</strong> — CRM dashboards, HR apps, ecommerce, AI ops dashboards (~350 unique screens, all Next.js 16 + Tailwind 4 + shadcn). Shares the full workflow + app-type CLAUDE.md rules. Author previously co-created NativeBase (100k+ weekly npm downloads).</p>
+        <div class="links">
+          <a class="link" href="https://thefrontkit.com/blogs/how-i-built-14-accessible-nextjs-apps-with-claude-code" target="_blank" rel="noopener">Read the workflow <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Claudia Ng — "5 files fix Claude forgetting your stack"</div>
+          <span class="badge read">Guardrails</span>
+        </div>
+        <p class="card-desc">A Data Scientist shipping production-grade frontends despite no CSS/HTML background. Core insight: the biggest risk is <strong>Context Drift</strong> — without guardrails a fast agent invents hallucinated complexity. Shares a paste-ready CLAUDE.md (&lt;200 lines), settings.json deny list, path-scoped UI rules &amp; custom /project: commands.</p>
+        <div class="links">
+          <a class="link" href="https://aiweekender.substack.com/p/claude-code-keeps-forgetting-your" target="_blank" rel="noopener">Read it <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Anthropic — Rapidly develop web apps with Claude</div>
+          <span class="badge read">Official</span>
+        </div>
+        <p class="card-desc">Senior-dev oriented official guide: using Claude.ai + Claude Code to scaffold, build, debug and ship production software — with genuine architecture prompts (monorepo with shared types, WebSocket vs SSE, rate-limiting strategy).</p>
+        <div class="links">
+          <a class="link" href="https://www.anthropic.com/claude-explains/rapidly-develop-web-applications-with-claude" target="_blank" rel="noopener">Read guide <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 03 PEOPLE -->
+  <section id="people" class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <span class="sec-title">People to follow</span>
+      <span class="sec-sub">Profiles — follow directly.</span>
+    </div>
+    <div class="people">
+      <div class="person">
+        <div class="handle">@laguagu</div>
+        <div class="role">Next.js 16 + AI SDK skills</div>
+        <a href="https://github.com/laguagu" target="_blank" rel="noopener">github.com/laguagu ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@martinacostadev</div>
+        <div class="role">React / Next.js + Expo agents</div>
+        <a href="https://github.com/martinacostadev" target="_blank" rel="noopener">github.com/martinacostadev ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@sx4im</div>
+        <div class="role">CLAUDE.md templates</div>
+        <a href="https://github.com/sx4im" target="_blank" rel="noopener">github.com/sx4im ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@wsimmonds</div>
+        <div class="role">Next.js evals testing</div>
+        <a href="https://github.com/wsimmonds" target="_blank" rel="noopener">github.com/wsimmonds ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@gbechtold</div>
+        <div class="role">Artifacts → Next.js converter</div>
+        <a href="https://github.com/gbechtold" target="_blank" rel="noopener">github.com/gbechtold ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@wilwaldon</div>
+        <div class="role">Frontend design toolkit</div>
+        <a href="https://github.com/wilwaldon" target="_blank" rel="noopener">github.com/wilwaldon ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@rohitg00</div>
+        <div class="role">Design aesthetics + DESIGN.md</div>
+        <a href="https://github.com/rohitg00" target="_blank" rel="noopener">github.com/rohitg00 ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@Leonxlnx</div>
+        <div class="role">taste-skill (anti UI-slop)</div>
+        <a href="https://github.com/Leonxlnx" target="_blank" rel="noopener">github.com/Leonxlnx ↗</a>
+      </div>
+      <div class="person">
+        <div class="handle">@obra</div>
+        <div class="role">Jesse Vincent — Superpowers (general agentic, not FE-specific)</div>
+        <a href="https://github.com/obra" target="_blank" rel="noopener">github.com/obra ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 COMMUNITY -->
+  <section id="community" class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <span class="sec-title">Community &amp; discussion</span>
+      <span class="sec-sub">No single FE-Claude celebrity — it's distributed.</span>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <p class="card-desc" style="margin-bottom:18px">The frontend-Claude community is spread across subreddits rather than one viral name. Best move: join these and sort by the <strong>"I built" / "showdev"</strong> flair. Pair with DEV.to's <strong>#showdev #nextjs #ai</strong> tags where real shipped projects get posted.</p>
+        <div class="links">
+          <a class="link" href="https://www.reddit.com/r/ClaudeAI/" target="_blank" rel="noopener">r/ClaudeAI <span class="arr">↗</span></a>
+          <a class="link" href="https://www.reddit.com/r/nextjs/" target="_blank" rel="noopener">r/nextjs <span class="arr">↗</span></a>
+          <a class="link" href="https://www.reddit.com/r/reactjs/" target="_blank" rel="noopener">r/reactjs <span class="arr">↗</span></a>
+          <a class="link" href="https://www.reddit.com/r/ChatGPTCoding/" target="_blank" rel="noopener">r/ChatGPTCoding <span class="arr">↗</span></a>
+          <a class="link" href="https://dev.to/t/showdev" target="_blank" rel="noopener">DEV #showdev <span class="arr">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 START HERE -->
+  <section id="start" class="reveal">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <span class="sec-title">Where to start</span>
+    </div>
+    <div class="verdict">
+      <div class="label">If you do one thing</div>
+      <p>Clone <strong>laguagu / claude-code-nextjs-skills</strong> and read every SKILL.md — it's the cleanest overlap with what modern teams use (App Router, RSC, Vercel AI SDK, streaming, SEO).</p>
+      <p>Then adopt the <strong>Front Kit accessibility workflow</strong> + <strong>Claudia Ng's CLAUDE.md guardrails</strong>. Build one or two distinctive, WCAG-AA Next.js projects and document your workflow — a reproducible, AI-assisted process is far more valuable than a one-off demo.</p>
+      <p>Skip the generic "built a todo app" content entirely — it teaches almost nothing about shipping real software.</p>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <div class="sig">A curated open resource · React / Next.js + Claude</div>
+    <div class="small">All links open in a new tab — select any ↗ to explore.</div>
+  </footer>
+
+</div>
+
+<script>
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay=(i%3)*0.08+'s';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
